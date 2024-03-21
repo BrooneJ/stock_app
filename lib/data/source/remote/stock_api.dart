@@ -9,7 +9,8 @@ class StockApi {
 
   StockApi({required this.client});
 
-  Future<http.Response> getListings(String apikey) async {
+  Future<http.Response> getListings({String? apikey}) async {
+    final apikey = apiKey ?? "";
     return await client.get(
       Uri.parse(
         'https://www.alphavantage.co/query?function=LISTING_STATUS&apikey=$apikey',
