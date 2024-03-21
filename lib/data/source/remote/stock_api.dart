@@ -5,13 +5,13 @@ class StockApi {
   static const String baseUrl = 'https://www.alphavantage.co/';
   final apiKey = dotenv.env['APIKEY'];
 
-  final http.Client client;
+  final http.Client _client;
 
-  StockApi({required this.client});
+  StockApi({http.Client? client}) : _client = (client ?? http.Client());
 
   Future<http.Response> getListings({String? apikey}) async {
     final apikey = apiKey ?? "";
-    return await client.get(
+    return await _client.get(
       Uri.parse(
         'https://www.alphavantage.co/query?function=LISTING_STATUS&apikey=$apikey',
       ),
