@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:stock_app/domain/model/repository/stock_repository.dart';
+import 'package:stock_app/presentation/company_listings/company_listings_action.dart';
 import 'package:stock_app/presentation/company_listings/company_listings_state.dart';
 
 class CompanyListingsViewModel with ChangeNotifier {
   final StockRepository _respository;
+
+  Timer? _debounce;
 
   var _state = CompanyListingsState();
 
@@ -11,6 +16,18 @@ class CompanyListingsViewModel with ChangeNotifier {
 
   CompanyListingsViewModel(this._respository) {
     _getCompanyListings();
+  }
+
+  void onAction(CompanyListingsAction action) {
+    action.when(
+      refresh: () => _getCompanyListings(fetchFromRemote: true),
+      onSearchQueryChange: (query) {
+        _debounce?.cancel();
+        _debounce = Timer(const Duration(milliseconds: 500), () {
+          _getCompanyListings(query: query);
+        });
+      },
+    );
   }
 
   Future _getCompanyListings({
