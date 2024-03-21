@@ -3,7 +3,7 @@ import 'package:stock_app/data/mapper/company_mapper.dart';
 import 'package:stock_app/data/source/local/stock_dao.dart';
 import 'package:stock_app/data/source/remote/stock_api.dart';
 import 'package:stock_app/domain/model/company_listing.dart';
-import 'package:stock_app/domain/model/repository/stock_repository.dart';
+import 'package:stock_app/domain/repository/stock_repository.dart';
 import 'package:stock_app/util/result.dart';
 
 class StockRepositoryImpl implements StockRepository {

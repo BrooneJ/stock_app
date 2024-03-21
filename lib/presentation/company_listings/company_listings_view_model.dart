@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:stock_app/domain/model/repository/stock_repository.dart';
+import 'package:stock_app/domain/repository/stock_repository.dart';
 import 'package:stock_app/presentation/company_listings/company_listings_action.dart';
 import 'package:stock_app/presentation/company_listings/company_listings_state.dart';
 
