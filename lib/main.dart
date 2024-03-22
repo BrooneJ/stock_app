@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:stock_app/data/repository/stock_repository_impl.dart';
 import 'package:stock_app/data/source/local/company_listing_entity.dart';
 import 'package:stock_app/data/source/local/stock_dao.dart';
 import 'package:stock_app/data/source/remote/stock_api.dart';
+import 'package:stock_app/domain/repository/stock_repository.dart';
 import 'package:stock_app/presentation/company_listings/company_listings_screen.dart';
 import 'package:stock_app/presentation/company_listings/company_listings_view_model.dart';
 import 'package:stock_app/util/theme.dart';
@@ -15,15 +17,19 @@ void main() async {
   Hive.registerAdapter(CompanyListingEntityAdapter());
   await dotenv.load(fileName: ".env");
 
+  final repository = StockRepositoryImpl(
+    StockApi(),
+    StockDao(),
+  );
+
+  GetIt.instance.registerSingleton<StockRepository>(repository);
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (_) => CompanyListingsViewModel(
-            StockRepositoryImpl(
-              StockApi(),
-              StockDao(),
-            ),
+            repository,
           ),
         ),
       ],
