@@ -34,5 +34,23 @@ class CompanyInfoViewModel with ChangeNotifier {
     });
 
     notifyListeners();
+
+    final intradayInfo = await _repository.getIntradayInfo(symbol);
+    intradayInfo.when(
+      success: (infos) {
+        _state = state.copyWith(
+          stockInfos: infos,
+          isLoading: false,
+          errorMessage: null,
+        );
+      },
+      error: (message) {
+        _state = state.copyWith(
+          stockInfos: [],
+          isLoading: false,
+          errorMessage: message,
+        );
+      },
+    );
   }
 }
